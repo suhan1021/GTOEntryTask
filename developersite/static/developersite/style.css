@@ -1,6 +1,6 @@
 table.dev_table {
 	width: 100%;
-	font: 16px;
+	font: 16px !important;
 }
 table.dev_table > tr {
 	height: 110px;

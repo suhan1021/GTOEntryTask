@@ -12,11 +12,11 @@ class DeveloperForm(ModelForm):
     class Meta:
         model = Developer
         fields = ['contact', 'g_plus', 'profile']
-        labels = {
-        	'contact': _('Phone Number'),
-        	'g_plus': _('G+ ID'),
-        	'profile': _('Profile Image')
-        }
+        # labels = {
+        # 	'contact': _('Phone Number'),
+        # 	'g_plus': _('G+ ID'),
+        # 	'profile': _('Profile Image')
+        # }
 class UserForm(ModelForm):
     class Meta:
         model = User
@@ -34,7 +34,8 @@ def index(request):
 
 # @login_required
 def edit(request, developer_id):
-    if request.user.is_authenticated():
+    is_authenticated = request.user.is_authenticated()
+    if is_authenticated:
         developer = get_object_or_404(Developer, pk=developer_id)
         user = developer.user
         if user == request.user:
@@ -52,12 +53,14 @@ def edit(request, developer_id):
                     print user_form.errors
                     print dev_form.errors
             return render(request, 'developersite/edit.html', {
-                'is_authenticated': True,
+                'is_authenticated': is_authenticated,
+                'is_authorized': True,
                 'user_form': user_form,
                 'dev_form': dev_form,
             })
     return render(request, 'developersite/edit.html', {
-        'is_authenticated': False,
+        'is_authenticated': is_authenticated,
+        'is_authorized': False,
         'error_message': 'You are not authorized to access this page.',
     })
     

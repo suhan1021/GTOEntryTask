@@ -7,9 +7,9 @@ from django.dispatch import receiver
 
 class Developer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    g_plus = models.CharField(max_length=32, blank=True, null=True)
-    contact = models.CharField(max_length=32, blank=True, null=True)
-    profile = models.ImageField(upload_to='uploads', blank=True, null=True)
+    g_plus = models.CharField('G+ ID', max_length=32, blank=True)
+    contact = models.CharField('Phone NUmber', max_length=32, blank=True)
+    profile = models.ImageField('Profile Image', upload_to='uploads', blank=True)
     def __str__(self):
         return self.user.username
 
