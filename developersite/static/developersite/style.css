@@ -1,0 +1,15 @@
+table.dev_table {
+	width: 100%;
+	font: 16px;
+}
+table.dev_table > tr {
+	height: 110px;
+}
+table.dev_table td, table.dev_table th {
+	text-align: center;
+	vertical-align: middle;
+}
+table.dev_table td > img {
+	height: 100px;
+	width: 100px;
+}

@@ -1,0 +1,21 @@
+
+
+{% extends "registration/base_site.html" %}
+
+{% block content %}
+
+{% if is_authenticated %}
+
+	<h1>Edit your profile: </h1>
+	<form method="post" action="" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ user_form.as_p }}
+		{{ dev_form.as_p }}
+		<input type="submit" value="submit">
+	</form>
+
+{% else %}
+	<h1>{{error_message}}</h1>
+{% endif %}
+		
+{% endblock %}
