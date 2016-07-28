@@ -4,33 +4,48 @@
 <h1>You're viewing the developer list</h1>
 <div id="content" class="{% block coltype %}colM{% endblock %}">
 	<table class="dev_table">
-	<tr>
-		<th>Username</th>
-		<th>Profile Image</th>
-		<th>First Name</th>
-		<th>Last Name</th>
-		<th>Email</th>
-		<th>G+ ID</th>
-		<th>Phone Number</th>
-	</tr>
-	{% for dev in developers %}
-	<tr>
-		<td>{{dev.user.username}}</td>
-		<td>
-		{% if dev.profile %}
-			<img src="{{dev.profile.url}}">
-		{% endif %}
-		</td>
-		<td>{{dev.user.first_name}}</td>
-		<td>{{dev.user.last_name}}</td>
-		<td>{{dev.user.email}}</td>
-		<td>{{dev.g_plus}}</td>
-		<td>{{dev.contact}}</td>
-		{% if username == dev.user.username %}
-		<td><a href="/developersite/{{dev.id}}/edit/">edit</a></td>
-		{% endif %}
-	</tr>	
-	{% endfor %}
+        <tr>
+            <th>Username</th>
+            <th>Profile Image</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>G+ ID</th>
+            <th>Phone Number</th>
+        </tr>
+        {% for dev in developers %}
+        <tr>
+            <td>{{dev.user.username}}</td>
+            <td>
+            {% if dev.profile %}
+                <img src="{{dev.profile.url}}">
+            {% endif %}
+            </td>
+            <td>{{dev.user.first_name}}</td>
+            <td>{{dev.user.last_name}}</td>
+            <td>{{dev.user.email}}</td>
+            <td>{{dev.g_plus}}</td>
+            <td>{{dev.contact}}</td>
+            {% if username == dev.user.username %}
+            <td><a href="/developersite/{{dev.id}}/edit/">edit</a></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
 	</table>
+    <div class="pagination">
+        <span class="step-links">
+            {% if developers.has_previous %}
+                <a href="?page={{ developers.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ developers.number }} of {{ developers.paginator.num_pages }}.
+            </span>
+
+            {% if developers.has_next %}
+                <a href="?page={{ developers.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
 </div>
 {% endblock %}

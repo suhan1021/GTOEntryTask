@@ -4,7 +4,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from .models import Developer
 from django.forms import ModelForm
-from django.utils.translation import ugettext_lazy as _
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+# from django.utils.translation import ugettext_lazy as _
 # from django.contrib.auth.decorators import login_required
 
 
@@ -12,18 +13,26 @@ class DeveloperForm(ModelForm):
     class Meta:
         model = Developer
         fields = ['contact', 'g_plus', 'profile']
-        # labels = {
-        # 	'contact': _('Phone Number'),
-        # 	'g_plus': _('G+ ID'),
-        # 	'profile': _('Profile Image')
-        # }
+
+
 class UserForm(ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
 
+
 def index(request):
-    developers = Developer.objects.all()
+    developer_list = Developer.objects.all()
+    paginator = Paginator(developer_list, 5)
+    page = request.GET.get('page')
+    try:
+        developers = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        developers = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        developers = paginator.page(paginator.num_pages)
     is_authenticated = request.user.is_authenticated()
     username = request.user.username if is_authenticated else None
     return render(request, 'developersite/index.html', {
@@ -31,6 +40,7 @@ def index(request):
         'developers': developers,
         'username': username,
     })
+
 
 # @login_required
 def edit(request, developer_id):
@@ -63,5 +73,5 @@ def edit(request, developer_id):
         'is_authorized': False,
         'error_message': 'You are not authorized to access this page.',
     })
-    
-        
+
+

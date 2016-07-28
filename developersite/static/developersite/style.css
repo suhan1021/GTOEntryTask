@@ -13,3 +13,7 @@ table.dev_table td > img {
 	height: 100px;
 	width: 100px;
 }
+div.pagination {
+    text-align: center;
+    margin: 20px 0;
+}
